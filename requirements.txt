@@ -1,0 +1,9 @@
+Flask==2.0.3
+Flask-Cors==3.0.10
+numpy==1.23.0
+openai-whisper==20230314
+gradio==3.2.0
+openai==0.27.0
+python-dotenv==0.21.0
+gunicorn==20.1.0
+Werkzeug==2.0.3
