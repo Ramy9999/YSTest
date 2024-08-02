@@ -1,0 +1,124 @@
+.accessibility {
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+.signature {
+  margin-top: 20px;
+  border-top: 1px solid #000;
+  padding-top: 20px;
+}
+
+.signature p {
+  margin: 5px 0;
+}
+.inline-block {
+  display: inline-block;
+}
+
+.navbar {
+  display: flexbox;
+  flex-direction: row;
+}
+.container {
+  display: inline-flex;
+  width: 100%;
+  height: 10vh;
+  padding: auto;
+  margin: auto;
+  justify-items: center;
+  align-items: center;
+}
+.main-logo {
+  top: 20px;
+  left: 0px;
+  width: 100%;
+  overflow: visible;
+}
+.nav-menu-div {
+  width: 100%;
+  justify-self: start;
+  align-self: flex-start;
+  color: aqua;
+}
+.menu-list {
+  display: flex;
+  justify-content: space-evenly;
+}
+.nav-item {
+  color: whitesmoke;
+  font-family: "Montserrat";
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+#productDropdown .dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: black;
+  z-index: 1000;
+}
+
+#productDropdown .dropdown-menu.show {
+  display: block;
+}
+
+#productDropdown .dropdown-item {
+  color: white !important;
+  font-family: "Montserrat", sans-serif;
+  transition: background-color 0.3s;
+}
+
+#productDropdown .dropdown-item:hover {
+  background-color: black;
+}
+
+.main-body {
+  background-color: black;
+}
+.main-article {
+  position: relative;
+  color: whitesmoke;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+.logo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+.terms {
+  margin: 70px;
+  padding: 50px;
+}
+.terms-heading {
+  top: 0;
+  padding-top: -10px;
+  text-align: center;
+  font-size: 50px;
+  height: 10vh;
+  margin-top: 10px;
+}
+.terms-main-para {
+  text-align: left;
+}
+.terms p {
+  text-indent: 0;
+}
+
+.contact-info {
+  margin-top: 20px;
+}
+h2 {
+  font-weight: 500;
+}
+.text-h3 {
+  font-size: x-large;
+}
+.main-heading {
+  text-align: center;
+}
+.sub-heading {
+  text-align: center;
+}
