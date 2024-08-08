@@ -3495,7 +3495,7 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap");
 
 .philosophy-wrapper {
-  background-color: black;
+  background-color: transparent;
   width: 100%;
   padding: 100px 0;
   display: flex;
@@ -3511,6 +3511,7 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Montserrat", sans-serif;
   color: black;
+  border-radius: 50px;
 }
 
 .philosophy-section {
@@ -3581,6 +3582,7 @@ body {
   align-items: center;
   justify-content: flex-end; /* Aligns the image to the far right */
   overflow: hidden;
+  border-radius: 50px;
 }
 
 .image-section img {
