@@ -1,0 +1,768 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" type="text/css" href="css/video-recorder.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+  <script src="https://kit.fontawesome.com/53e90ec8ae.js" crossorigin="anonymous"></script>
+
+  <title>Online Camera Recorder</title>
+  <link rel="icon" type="image/x-icon" href="assets/img/logo.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.11.8/dist/ffmpeg.min.js"></script>
+  
+  <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+
+  <style>
+    body {
+      background-color: black;
+      font-family: 'Montserrat';
+    }
+
+    img {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+    }
+
+    .imgA1 {
+      z-index: 1;
+    }
+
+    .imgB1 {
+      z-index: 3;
+    }
+
+    .buttRadius {
+      border-radius: 25px;
+      font-size: 17px;
+      font-family: 'Montserrat';
+      margin: 0 auto;
+      position: absolute;
+      z-index: 1;
+      margin-top: -100px;
+	  margin-left: -80px;
+    }
+
+    .videoBorder {
+      border: 3px solid black;
+      border-radius: 75px;
+    }
+
+    .smallVideoBorder {
+      border: 1px solid black;
+      border-radius: 50px;
+    }
+
+    footer {
+      background: #161E26;
+      text-align: center;
+      width: 100vw;
+    }
+
+    .site-info {
+      position: relative;
+      padding: 30px 0;
+    }
+
+    .site-info p {
+      font-size: 13px;
+      color: #9e9e9e;
+    }
+
+    .site-info a {
+      color: #fff;
+    }
+
+    .site-info a:hover {
+      color: #FC4100;
+    }
+
+    .social-icons-footer ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .social-icons-footer ul li {
+      display: inline-block;
+    }
+
+    .social-icons-footer a {
+      color: black;
+      display: inline-block;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-bottom: 15px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 254, 254, 0.07);
+      line-height: 40px;
+      width: 40px;
+      height: 40px;
+      background-color: white;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .social-icons-footer .facebook a:hover {
+      border-color: #4867aa;
+      color: #4867aa;
+    }
+
+    .social-icons-footer .twitter a:hover {
+      border-color: #1da1f2;
+      color: #1da1f2;
+    }
+
+    .social-icons-footer .linkedin a:hover {
+      border-color: #0077b5;
+      color: #0077b5;
+    }
+
+    .social-icons-footer .google a:hover {
+      border-color: #ea4335;
+      color: #ea4335;
+    }
+
+    .social-icons-footer .pinterest a:hover {
+      border-color: #bd081c;
+      color: #bd081c;
+    }
+
+    .link-list {
+      margin: 15px;
+    }
+
+    .link-list li {
+      display: inline-block;
+      padding: 7px 10px;
+    }
+
+    .link-list li a {
+      color: #9e9e9e;
+    }
+
+    .link-list li a:hover {
+      color: #FC4100;
+    }
+
+    .subscribe-inner {
+      padding: 50px 0;
+      text-align: center;
+    }
+
+    .subscribe-inner .subscribe-title {
+      color: #fff;
+      font-size: 26px;
+      text-center: center;
+      margin-bottom: 50px;
+      position: relative;
+    }
+
+    .subscribe-inner p {
+      color: #888;
+      margin-bottom: 30px;
+    }
+
+    .subscribe-inner .sub-btn {
+      margin: 0;
+      width: 12rem;
+      padding: 18px 40px;
+      border-radius: 30px;
+      min-width: 12rem;
+      position: absolute;
+      top: 0;
+      border: none;
+      bottom: 0;
+      right: 0;
+    }
+
+    .subscribe-inner .sub-btn i {
+      margin-right: 5px;
+    }
+
+    .subscribe-inner .form-control {
+      position: relative;
+      background: #252D37;
+      border: 1px solid #252D37;
+      border-radius: 0px;
+      box-shadow: none;
+      color: #fff !important;
+      border-radius: 30px;
+      height: 55px;
+      margin-right: -1px;
+      width: 90%;
+    }
+
+    .subscribe-inner .form-control:focus {
+      color: #212121;
+      border-color: #FC4100;
+      outline: 0;
+    }
+
+    .subscribe-inner .form-inline {
+      position: relative;
+      margin-bottom: 30px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .footer-logo {
+      margin-bottom: 50px;
+    }
+
+    :root {
+      --rating-size: 5.5rem;
+      --bar-size: 0.5rem;
+      --background-color: #e7f2fa;
+      --rating-color-default: #2980b9;
+      --rating-color-background: #c7e1f3;
+      --rating-color-good: #27ae60;
+      --rating-color-meh: #f1c40f;
+      --rating-color-bad: #e74c3c;
+    }
+
+    .rating {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 100%;
+      overflow: hidden;
+
+      background: var(--rating-color-default);
+      color: var(--rating-color-default);
+      width: var(--rating-size);
+      height: var(--rating-size);
+
+      font-size: calc(var(--rating-size) / 3);
+      line-height: 1;
+    }
+
+    .rating span {
+      position: relative;
+      display: flex;
+      font-weight: normal;
+      z-index: 2;
+    }
+
+    .rating span small {
+      font-size: 0.5em;
+      font-weight: 900;
+      align-self: center;
+    }
+
+    .rating::after {
+      content: "";
+      position: absolute;
+      inset: var(--bar-size);
+      background: var(--background-color);
+      border-radius: inherit;
+      z-index: 1;
+    }
+
+    .rating::before {
+      content: "";
+      position: absolute;
+      inset: var(--bar-size);
+      border-radius: inherit;
+      box-shadow: 0 0 0 1rem var(--rating-color-background);
+      z-index: -1;
+    }
+
+    .rating.good {
+      background: var(--rating-color-good);
+      color: var(--rating-color-good);
+    }
+
+    .rating.meh {
+      background: var(--rating-color-meh);
+      color: var(--rating-color-meh);
+    }
+
+    .rating.bad {
+      background: var(--rating-color-bad);
+      color: var(--rating-color-bad);
+    }
+	
+
+    .video_on_the_left {
+      width: 73%;
+      margin-right: 2%;
+      margin-left: 10%;
+      float: left;
+    }
+
+    .video_on_the_left video {
+      width: 100%;
+    }
+
+    .score_on_the_right {
+      width: 2%;
+      float: left;
+    }
+
+    .clearfix {
+      clear: both;
+    }
+
+    @media (max-width: 1024px) {
+      .video_on_the_left,
+      .score_on_the_right {
+        float: none;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+      }
+
+      .score_on_the_right {
+        margin-top: 20px;
+      }
+
+      .rating {
+        width: 6rem;
+        height: 6rem;
+      }
+
+      .ratingFontSize {
+        font-size: 12px;
+      }
+
+      .reduceSize {
+        width: 25px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .video_on_the_left,
+      .score_on_the_right {
+        float: none;
+        width: 100%;
+        text-align: center;
+        margin: 0;
+      }
+
+      .score_on_the_right {
+        margin-top: 20px;
+      }
+
+      .rating {
+        width: 5rem;
+        height: 5rem;
+      }
+
+      .ratingFontSize {
+        font-size: 10px;
+      }
+
+      .reduceSize {
+        width: 20px;
+      }
+    }
+
+    #videoelement {
+      transform: scaleX(-1);
+    }
+
+    #recbutton {
+      width: 150px;
+    }
+	
+	
+	
+	<!-- Video On Video Start -->
+
+    .video-overlay-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      background-color: #000;
+    }
+
+    .main-video-container {
+      position: relative;
+    }
+
+    .main-video-container .small-overlay-video {
+      position: absolute;
+      bottom: 10px;
+      right: 1px;
+      width: 300px;
+	  height: auto
+      border: 2px solid white;
+    }
+	
+	<!-- Video On Video End -->
+	
+	
+	
+	
+    <!-- Start Avatar Button Start-->
+    .overlay {
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #playButton {
+      padding: 10px 40px;
+      font-size: 17px;
+      font-family: 'Montserrat';
+      cursor: pointer;
+      background-color: #fff;
+      border: gold;
+      border-radius: 50px;
+      margin: 0 auto;
+    }
+	<!-- Start Avatar Button End-->
+	
+  </style>
+</head>
+
+<body>
+
+  <div class="score_on_the_right">
+    <a href="index.html"><img width="100px" class="imgA1 reduceSize"
+        src="assets/img/PDFLOGOYS.png" alt="YSwipe" /></a>
+    <br><br><br><br><br><br><br>
+
+    <div class="videosDiv" id="recordedVideos"></div>
+
+    <div class="dropdown" style="text-align: center;">
+      <button class="btn btn-light dropdown-toggle buttonS button-choose-video" type="button" id="dropdownMenuButton1"
+        data-bs-toggle="dropdown" aria-expanded="false">
+        &nbsp; Choose Video
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="#">First Video</a></li>
+        <li><a class="dropdown-item" href="#">Second Video</a></li>
+        <li><a class="dropdown-item" href="#">Third Video</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <br><br>
+
+  <div class="video_on_the_left">
+    <div class="main-video-container">
+      <video class="main-video videoBorder increaseSize" id="mainVideo" autoplay playsinline webkit-playsinline
+        style="max-width: 100%;height: auto;">
+        <source src="assets/video/Profile-Video-V1.mp4">
+      </video>
+      <video class="small-overlay-video videoBorder" autoplay playsinline webkit-playsinline muted id="videoelement">
+      </video>
+    </div>
+  </div>
+
+  <div class="score_on_the_right">
+    <h6 style="font-family: 'Montserrat'; color:white;" class="ratingFontSize">Communication</h6>
+    <div class="rating" style="font-family: 'Montserrat'">91%</div>
+    <br>
+    <h6 style="font-family: 'Montserrat'; color:white;" class="ratingFontSize">Aptitude</h6>
+    <div class="rating" style="font-family: 'Montserrat'">86%</div>
+    <br>
+    <h6 style="font-family: 'Montserrat'; color: white;" class="ratingFontSize">Skills</h6>
+    <div class="rating" style="font-family: 'Montserrat'">82%</div>
+    <br>
+    <p style="font-family: 'Montserrat'; color: white; font-size: 15px; width: 195px">1. What are your customer skills?</p>
+    <p style="font-family: 'Montserrat'; color: white; font-size: 15px; width: 195px">2. Tell me about a time where a customer was difficult?</p>
+    <p style="font-family: 'Montserrat'; color: white; font-size: 15px; width: 195px">3. What are your weaknesses?</p>
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="container text-center moveRight">
+    <p id="recMessageLeft"
+      style="float: left; font-family: 'Montserrat'; font-size: 14px; font-weight: bold; color: white; margin-top: 10px;">
+    </p>
+    <button type="button" id="recbutton" class="btn btn-light buttRadius" onclick="recordStart();"><i
+        class="fa-solid fa-video"></i>&nbsp; Record</button>
+    <button type="button" id="stopbutton" class="btn btn-danger buttRadius" style="visibility: hidden;"
+      onclick="recordStop();"><i class="fa-solid fa-video-slash"></i>&nbsp; Stop</button>
+    <p id="recMessage"
+      style="float: right; font-family: 'Montserrat'; font-size: 14px; font-weight: bold; color: red; margin-top: 10px;">
+    </p>
+    <br><br>
+    <button type="button" id="submitbutton" class="btn btn-success buttRadius" style="visibility: hidden;"
+      onclick="submitRecording();"><i class="fa-solid fa-check"></i>&nbsp; Submit</button>
+  </div>
+
+  <!-- <br><br> -->
+
+  <!-- <footer class="footer-section container-fluid" style="background-color:black;"> -->
+    <!-- <div class="social-icons-footer"> -->
+      <!-- <ul> -->
+        <!-- <li class="facebook"><a target="_blank" href="3"><i class="fa-brands fa-facebook-f"></i></a></li> -->
+        <!-- <li class="twitter"><a target="_blank" href="https://x.com/Y_Swipe"><i class="fa-brands fa-x-twitter"></i></a></li> -->
+        <!-- <li class="linkedin"><a target="_blank" -->
+            <!-- href="https://www.linkedin.com/company/yswipe/about/"><i class="fa-brands fa-linkedin-in"></i></a></li> -->
+      <!-- </ul> -->
+    <!-- </div> -->
+    <!-- <div class="site-info"> -->
+      <!-- <p>YSwipe © <span id="currentYear"></span> <a href="" rel="nofollow"></a></p> -->
+    <!-- </div> -->
+  <!-- </footer> -->
+  
+  
+  <!-- <p style="text-align: center; color: white; margin-top: -50px;">YSwipe © <span id="currentYear"></span> <a href="" rel="nofollow"></a></p> -->
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  
+  
+  <script>
+    let recordingStarted = false;
+    let recordingTimeout;
+    let videoCount = 0;
+    const maxVideos = 3;
+    let mediaRecorder;
+    let recordedChunks = [];
+    let stream;
+
+    function initializeStream() {
+        navigator.mediaDevices.getUserMedia({ video: { width: 1920, height: 1080 }, audio: true })
+            .then(s => {
+                stream = s;
+                const videoElement = document.getElementById("videoelement");
+                videoElement.srcObject = stream;
+                videoElement.style.width = '230px'; // Ensure the video element width matches the container
+                videoElement.style.height = 'auto'; // Maintain the aspect ratio
+                videoElement.style.border = '2px solid white';
+				videoElement.style.borderRadius = '50px';
+            })
+            .catch(function (e) {
+                if (confirm("An error with camera occurred:(" + e.name + ") Do you want to reload?")) {
+                    location.reload();
+                }
+            });
+    }
+
+    function recordStart() {
+        recordedChunks = []; // Clear recorded chunks before starting a new recording
+        recordingStarted = true;
+        document.getElementById("recbutton").style.visibility = "hidden";
+        document.getElementById("stopbutton").style.visibility = "visible";
+        document.getElementById("recMessage").innerText = "Recording started ...";
+        document.getElementById("recMessageLeft").innerText = "You have 3 minutes, Good luck!";
+        document.getElementById("submitbutton").style.visibility = "hidden";
+
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.onstop = processRecording;
+        mediaRecorder.start();
+
+        recordingTimeout = setTimeout(() => {
+            document.getElementById("stopbutton").click();
+        }, 181000);
+    }
+
+    function recordStop() {
+        if (recordingStarted) {
+            mediaRecorder.stop();
+
+            document.getElementById("recbutton").style.visibility = "visible";
+            document.getElementById("stopbutton").style.visibility = "hidden";
+            document.getElementById("recMessage").innerText = "Recording stopped!";
+            document.getElementById("recMessageLeft").innerText = "";
+            document.getElementById("submitbutton").style.visibility = "visible";
+            recordingStarted = false;
+            clearTimeout(recordingTimeout);
+
+            setTimeout(function () {
+                document.getElementById("recMessage").innerText = "";
+                document.getElementById("recMessageLeft").innerText = "";
+            }, 2000);
+        } else {
+            document.getElementById("recMessage").innerText = "Recording not started!";
+            document.getElementById("recMessageLeft").innerText = "";
+        }
+    }
+
+    function handleDataAvailable(event) {
+        if (event.data.size > 0) {
+            recordedChunks.push(event.data);
+        }
+    }
+
+    function processRecording() {
+        const blob = new Blob(recordedChunks, {
+            type: 'video/webm'
+        });
+
+        const url = URL.createObjectURL(blob);
+
+        addRecordedVideo(url);
+        autoDownload(blob);
+    }
+
+    function addRecordedVideo(url) {
+        if (videoCount < maxVideos) {
+            const videoDiv = document.getElementById("recordedVideos");
+            let newVideo = videoDiv.querySelectorAll("video")[videoCount];
+
+            if (!newVideo) {
+                newVideo = document.createElement("video");
+                newVideo.width = 170;
+                newVideo.height = 120;
+                newVideo.controls = true;
+                newVideo.classList.add("smallVideoBorder", "videoS");
+                videoDiv.appendChild(newVideo);
+                videoDiv.appendChild(document.createElement("br"));
+            }
+
+            newVideo.src = url;
+            newVideo.load(); // Ensure the video element loads the new source
+            videoCount++;
+        }
+    }
+
+    function autoDownload(blob) {
+		// Create a form data object to send the file blob to the server
+		const formData = new FormData();
+		formData.append('file', blob, 'recording.webm');
+
+		// Call the transcription API
+		fetch('/transcribe', {
+			method: 'POST',
+			body: formData
+		}).then(response => {
+			if (response.ok) {
+				return response.json();
+			} else {
+				throw new Error('Failed to transcribe the video.');
+			}
+		}).then(data => {
+			console.log(data.message);
+			console.log("Transcription output:", data.output); // Log the transcription output
+			console.log("ChatGPT Response:", data.chatgpt_response); // Log the ChatGPT response
+
+			// Now proceed to download the video
+			const url = URL.createObjectURL(blob);
+
+			// Get the current date including milliseconds
+			var now = new Date();
+			var formattedDate = now.getDate().toString().padStart(2, '0') + "-" +
+				(now.getMonth() + 1).toString().padStart(2, '0') + "-" +
+				now.getFullYear() + "_" +
+				now.getHours().toString().padStart(2, '0') + "-" +
+				now.getMinutes().toString().padStart(2, '0') + "-" +
+				now.getSeconds().toString().padStart(2, '0') + "-" +
+				now.getMilliseconds().toString().padStart(3, '0');
+
+			const downloadLink = document.createElement('a');
+			downloadLink.href = url;
+			downloadLink.download = `profile-video-${formattedDate}.webm`;
+			document.body.appendChild(downloadLink);
+			downloadLink.click();
+			document.body.removeChild(downloadLink);
+		}).catch(error => {
+			console.error('Error in fetch operation:', error);
+		});
+    }
+
+    function submitRecording() {
+        alert("Video submitted for review!");
+        document.getElementById("submitbutton").style.visibility = "hidden";
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        initializeStream(); // Request permissions and initialize the stream when the page loads
+        const currentYear = new Date().getFullYear();
+        document.getElementById('currentYear').textContent = currentYear;
+    });
+
+    var videoelement = document.getElementById("videoelement");
+    var localStreamConstraints = {
+        audio: true,
+        video: {
+            width: 1920,
+            height: 1080,
+            facingMode: "user" // Ensure the front camera is used
+        },
+    };
+
+    function gotStream(stream) {
+        console.log("Adding local stream.");
+        videoelement.srcObject = stream;
+        mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+        mediaRecorder.ondataavailable = handleDataAvailable;
+        mediaRecorder.onstop = processRecording;
+    }
+
+    var recbtn = document.getElementById("recbutton");
+    if (recbtn) {
+        recbtn.addEventListener('click', () => {
+            recordedChunks = []; // Clear recorded chunks before starting a new recording
+            mediaRecorder.start();
+        });
+    }
+
+    var stopbtn = document.getElementById("stopbutton");
+    if (stopbtn) {
+        stopbtn.addEventListener('click', () => {
+            mediaRecorder.stop();
+        });
+    }
+  </script>
+    
+
+    
+  
+  <script>
+    const ratings = document.querySelectorAll(".rating");
+
+    ratings.forEach((rating) => {
+      const ratingContent = rating.innerHTML;
+      const ratingScore = parseInt(ratingContent, 10);
+
+      const scoreClass = ratingScore < 40 ? "bad" : ratingScore < 60 ? "meh" : "good";
+
+      rating.classList.add(scoreClass);
+
+      const ratingColor = window.getComputedStyle(rating).backgroundColor;
+
+      const gradient = `background: conic-gradient(${ratingColor} ${ratingScore}%, transparent 0 100%)`;
+
+      rating.setAttribute("style", gradient);
+
+      rating.innerHTML = `<span>${ratingScore} ${ratingContent.indexOf("%") >= 0 ? "<small>%</small>" : ""}</span>`;
+    });
+  </script>
+  
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var overlay = document.getElementById('overlay');
+      var video = document.getElementById('mainVideo');
+
+      document.getElementById('playButton').addEventListener('click', function () {
+        overlay.style.display = 'none';
+        video.muted = false;
+        video.play();
+      });
+
+      video.play();
+    });
+  </script>
+  
+  
+</body>
+
+</html>

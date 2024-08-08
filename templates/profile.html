@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+	<link rel="icon" type="image/x-icon" href="assets/img/logo.png">
+    <title>Profile</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+			font-family: 'Montserrat';
+			margin: 0;
+			padding: 0;
+			background-color: black;
+			display: flex;
+			align-items: flex-start;
+			justify-content: center;
+			padding-top: 20px;
+        }
+
+		.navbar-brand {
+			display: inline-block;
+			margin-right: 20px;
+		}
+
+		.profile-container {
+			max-width: 800px;
+			width: 100%;
+			padding: 20px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			display: inline-block;
+			vertical-align: top;
+		}
+		.profile-header {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+		.profile-picture-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-right: 20px;
+		}
+		.profile-picture {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			overflow: hidden;
+			margin-bottom: 10px;
+			position: relative;
+		}
+		.profile-picture img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.upload-button {
+			background-color: white;
+			border: solid 1px black;
+			color: black;
+			padding: 5px 10px;
+			border-radius: 50px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.upload-button:hover {
+			background-color: #EEEDEB;
+		}
+		.profile-info {
+			flex-grow: 1;
+		}
+		.profile-info h1 {
+			margin: 0;
+			font-size: 24px;
+			color: #333;
+			font-weight: bold;
+		}
+		.profile-info p {
+			margin: 5px 0;
+			color: #666;
+		}
+		.profile-section-row {
+			display: flex;
+			gap: 20px; /* Add space between the two sections */
+		}
+		.profile-section {
+			flex: 1; /* Distribute the available space equally */
+			margin-bottom: 20px;
+		}
+		.profile-section h2 {
+			margin: 0 0 10px 0;
+			font-size: 20px;
+			color: #333;
+			font-weight: bold;
+		}
+		.profile-section input {
+			width: 80%; /* Adjust width here */
+			padding: 10px;
+			font-size: 14px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			resize: vertical;
+		}
+		.profile-section textarea {
+			width: 90%; /* Adjust width here */
+			padding: 10px;
+			font-size: 14px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			resize: vertical;
+		}
+		.profile-section-name {
+			flex: 1; /* Distribute the available space equally */
+			margin-bottom: 20px;
+			font-weight: bold;
+		}
+		.profile-section-name h2 {
+			margin: 0 0 10px 0;
+			font-size: 20px;
+			color: #333;
+			font-weight: bold;
+		}
+		.profile-section-name input {
+			width: 50%; /* Adjust width here */
+			padding: 10px;
+			font-size: 14px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			resize: vertical;
+		}
+		.profile-section select {
+			width: 80%; /* Adjust width here */
+			padding: 10px;
+			font-size: 14px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		.profile-actions {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.profile-actions .left-buttons {
+			display: flex;
+			gap: 10px;
+		}
+		.profile-actions button {
+			padding: 10px 20px;
+			cursor: pointer;
+			transition: background-color 0.3s;
+			border-radius: 50px;
+			font-weight: 700;
+			line-height: 22px;
+			font-size: 13.5px;
+			text-align: center;
+		}
+		.save-button {
+			background-color: #007bff;
+			color: #fff;
+			border: none;
+		}
+		.save-button:hover {
+			background-color: #0056b3;
+		}
+		.cancel-button {
+			background-color: white;
+			color: black;
+			border: solid 1px black;
+		}
+		.cancel-button:hover {
+			background-color: #EEEDEB;
+		}
+		.delete-button {
+			background-color: #dc3545;
+			color: #fff;
+			border: none;
+		}
+		.delete-button:hover {
+			background-color: #c82333;
+		}
+		.hidden-input {
+			display: none;
+		}
+		@media (min-width: 768px) and (max-width: 1024px) {
+			body {
+				flex-direction: column;
+				align-items: center;
+				justify-content: flex-start;
+			}
+
+			.navbar-brand {
+				margin: 0 auto 20px;
+				text-align: center;
+				display: none;
+			}
+
+			.profile-container {
+				max-width: 100%;
+				margin-top: 20px; /* Add some space between the logo and profile container */
+			}
+			
+		}
+
+		@media (min-width: 1025px) and (max-width: 1500px) {
+			.navbar-brand {
+				margin: 0 auto 20px;
+				text-align: center;
+				display: none;
+			}
+		}
+
+		@media (min-width: 1501px) {
+			.imagePlacing {
+			   margin-left: -160px;
+			}
+			.new-navbar-brand {
+			   display: none;
+			   text-align: center;
+			}
+			
+		}
+		
+		
+		
+		/* Footer Area Start */
+        footer {
+            background: #161E26;
+            text-align: center;
+            width: 100vw;
+            position: fixed;
+            left: -20px;
+            bottom: 0;
+        }
+
+        .site-info {
+            position: relative;
+            padding: 30px 0;
+        }
+
+        .site-info p {
+            font-size: 13px;
+            color: #9e9e9e;
+        }
+
+        .site-info a {
+            color: #fff;
+        }
+
+        .site-info a:hover {
+            color: #FC4100;
+        }
+
+        .social-icons-footer ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .social-icons-footer ul li {
+            display: inline-block;
+        }
+
+        .social-icons-footer a {
+            color: black;
+            display: inline-flex; /* Change from inline-block to inline-flex */
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            text-decoration: none;
+            margin-left: 5px;
+            margin-right: 5px;
+            margin-bottom: 15px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 254, 254, 0.07);
+            line-height: 40px;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .social-icons-footer .facebook a:hover {
+            border-color: #4867aa;
+            color: #4867aa;
+        }
+
+        .social-icons-footer .twitter a:hover {
+            border-color: #1da1f2;
+            color: #1da1f2;
+        }
+
+        .social-icons-footer .linkedin a:hover {
+            border-color: #0077b5;
+            color: #0077b5;
+        }
+
+        .social-icons-footer .google a:hover {
+            border-color: #ea4335;
+            color: #ea4335;
+        }
+
+        .social-icons-footer .pinterest a:hover {
+            border-color: #bd081c;
+            color: #bd081c;
+        }
+
+        .link-list {
+            margin: 15px;
+        }
+
+        .link-list li {
+            display: inline-block;
+            padding: 7px 10px;
+        }
+
+        .link-list li a {
+            color: #9e9e9e;
+        }
+
+        .link-list li a:hover {
+            color: #FC4100;
+        }
+
+        /* Subscribe Form */
+        .subscribe-inner {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .subscribe-inner .subscribe-title {
+            color: #fff;
+            font-size: 26px;
+            text-center: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .subscribe-inner p {
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        .subscribe-inner .sub-btn {
+            margin: 0;
+            width: 12rem;
+            padding: 18px 40px;
+            border-radius: 30px;
+            min-width: 12rem;
+            position: absolute;
+            top: 0;
+            border: none;
+            bottom: 0;
+            right: 0;
+        }
+
+        .subscribe-inner .sub-btn i {
+            margin-right: 5px;
+        }
+
+        .subscribe-inner .form-control {
+            position: relative;
+            background: #252D37;
+            border: 1px solid #252D37;
+            border-radius: 0px;
+            box-shadow: none;
+            color: #fff !important;
+            border-radius: 30px;
+            height: 55px;
+            margin-right: -1px;
+            width: 90%;
+        }
+
+        .subscribe-inner .form-control:focus {
+            color: #212121;
+            border-color: #FC4100;
+            outline: 0;
+        }
+
+        .subscribe-inner .form-inline {
+            position: relative;
+            margin-bottom: 30px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-logo {
+            margin-bottom: 50px;
+        }
+        /* Footer Area End */
+		
+		
+    </style>
+</head>
+<body>
+  <div class="container">
+   <div class= "row" style="text-align: center;">
+		<div class= "col-lg-12 col-md-12 col-sm-12 col-12">
+		  <a href="index.html" class="new-navbar-brand"><img width="100px" src="assets/img/YSwipe-Clear-White-Logo-black-background.jpeg" alt="New Logo"></a>
+		</div>
+   </div>
+	
+   <div class= "row">
+    <a href="index.html" class="navbar-brand logoColor displayVis"><img class="imagePlacing" width="100px" src="assets/img/YSwipe-Clear-White-Logo-black-background.jpeg" alt="Logo"></a>
+    <div class="profile-container" style="margin:0 auto;">
+        <div class="profile-header">
+            <div class="profile-picture-container">
+                <div class="profile-picture">
+                    <img id="profile-image" src="assets/img/team/Ramy-Photo.jpg" alt="Profile Picture">
+                </div>
+                <input type="file" id="file-input" class="hidden-input" accept="image/*">
+                <button class="upload-button" onclick="document.getElementById('file-input').click()">Upload Picture</button>
+            </div>
+            <div class="profile-info">
+                <h1>Ramy Elsaraf</h1>
+                <p>Full Stack Software Engineer at YSwipe</p>
+            </div>
+        </div>
+        <div class="profile-section-name">
+            <h2>Name</h2>
+            <input type="text" id="input-name" value="Ramy Elsaraf">
+        </div>
+        <div class="profile-section">
+            <h2>Profile Header</h2>
+            <textarea id="input-header" oninput="resizeTextarea(this)" style="width: 50%; resize: none; overflow: hidden;">Front-End Software Engineer | Back-End Software Engineer | Full-Stack Software Engineer</textarea>
+        </div>
+        <div class="profile-section-row">
+			<div class="profile-section">
+				<h2>Position</h2>
+				<input type="text" id="input-position" value="Full Stack Software Engineer">
+			</div>
+			<div class="profile-section">
+				<h2>Company</h2>
+				<input type="text" id="input-company" value="YSwipe">
+			</div>
+        </div>
+		<div class="profile-section-row">
+			<div class="profile-section">
+				<h2>Email</h2>
+				<input type="email" id="input-company" value="ramysolh93@gmail.com">
+			</div>
+			<div class="profile-section">
+				<h2>Phone</h2>
+				<input type="number" id="input-company" value="4033681429">
+			</div>
+		</div>
+		<div class="profile-section-row">
+		  <div class="profile-section">
+            <h2>Country</h2>
+            <select id="input-country">
+                <option value="" disabled>Select your country</option>
+                <!-- Add a list of all countries -->
+                <option value="Afghanistan">Afghanistan</option>
+                <option value="Albania">Albania</option>
+                <option value="Algeria">Algeria</option>
+                <option value="Andorra">Andorra</option>
+                <option value="Angola">Angola</option>
+                <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Armenia">Armenia</option>
+                <option value="Australia">Australia</option>
+                <option value="Austria">Austria</option>
+                <option value="Azerbaijan">Azerbaijan</option>
+                <option value="Bahamas">Bahamas</option>
+                <option value="Bahrain">Bahrain</option>
+                <option value="Bangladesh">Bangladesh</option>
+                <option value="Barbados">Barbados</option>
+                <option value="Belarus">Belarus</option>
+                <option value="Belgium">Belgium</option>
+                <option value="Belize">Belize</option>
+                <option value="Benin">Benin</option>
+                <option value="Bhutan">Bhutan</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                <option value="Botswana">Botswana</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Brunei">Brunei</option>
+                <option value="Bulgaria">Bulgaria</option>
+                <option value="Burkina Faso">Burkina Faso</option>
+                <option value="Burundi">Burundi</option>
+                <option value="Cabo Verde">Cabo Verde</option>
+                <option value="Cambodia">Cambodia</option>
+                <option value="Cameroon">Cameroon</option>
+                <option value="Canada" selected>Canada</option>
+                <option value="Central African Republic">Central African Republic</option>
+                <option value="Chad">Chad</option>
+                <option value="Chile">Chile</option>
+                <option value="China">China</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Comoros">Comoros</option>
+                <option value="Congo">Congo</option>
+                <option value="Costa Rica">Costa Rica</option>
+                <option value="Croatia">Croatia</option>
+                <option value="Cuba">Cuba</option>
+                <option value="Cyprus">Cyprus</option>
+                <option value="Czech Republic">Czech Republic</option>
+                <option value="Denmark">Denmark</option>
+                <option value="Djibouti">Djibouti</option>
+                <option value="Dominica">Dominica</option>
+                <option value="Dominican Republic">Dominican Republic</option>
+                <option value="Ecuador">Ecuador</option>
+                <option value="Egypt">Egypt</option>
+                <option value="El Salvador">El Salvador</option>
+                <option value="Equatorial Guinea">Equatorial Guinea</option>
+                <option value="Eritrea">Eritrea</option>
+                <option value="Estonia">Estonia</option>
+                <option value="Eswatini">Eswatini</option>
+                <option value="Ethiopia">Ethiopia</option>
+                <option value="Fiji">Fiji</option>
+                <option value="Finland">Finland</option>
+                <option value="France">France</option>
+                <option value="Gabon">Gabon</option>
+                <option value="Gambia">Gambia</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Germany">Germany</option>
+                <option value="Ghana">Ghana</option>
+                <option value="Greece">Greece</option>
+                <option value="Grenada">Grenada</option>
+                <option value="Guatemala">Guatemala</option>
+                <option value="Guinea">Guinea</option>
+                <option value="Guinea-Bissau">Guinea-Bissau</option>
+                <option value="Guyana">Guyana</option>
+                <option value="Haiti">Haiti</option>
+                <option value="Honduras">Honduras</option>
+                <option value="Hungary">Hungary</option>
+                <option value="Iceland">Iceland</option>
+                <option value="India">India</option>
+                <option value="Indonesia">Indonesia</option>
+                <option value="Iran">Iran</option>
+                <option value="Iraq">Iraq</option>
+                <option value="Ireland">Ireland</option>
+                <option value="Israel">Israel</option>
+                <option value="Italy">Italy</option>
+                <option value="Jamaica">Jamaica</option>
+                <option value="Japan">Japan</option>
+                <option value="Jordan">Jordan</option>
+                <option value="Kazakhstan">Kazakhstan</option>
+                <option value="Kenya">Kenya</option>
+                <option value="Kiribati">Kiribati</option>
+                <option value="Kuwait">Kuwait</option>
+                <option value="Kyrgyzstan">Kyrgyzstan</option>
+                <option value="Laos">Laos</option>
+                <option value="Latvia">Latvia</option>
+                <option value="Lebanon">Lebanon</option>
+                <option value="Lesotho">Lesotho</option>
+                <option value="Liberia">Liberia</option>
+                <option value="Libya">Libya</option>
+                <option value="Liechtenstein">Liechtenstein</option>
+                <option value="Lithuania">Lithuania</option>
+                <option value="Luxembourg">Luxembourg</option>
+                <option value="Madagascar">Madagascar</option>
+                <option value="Malawi">Malawi</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="Maldives">Maldives</option>
+                <option value="Mali">Mali</option>
+                <option value="Malta">Malta</option>
+                <option value="Marshall Islands">Marshall Islands</option>
+                <option value="Mauritania">Mauritania</option>
+                <option value="Mauritius">Mauritius</option>
+                <option value="Mexico">Mexico</option>
+                <option value="Micronesia">Micronesia</option>
+                <option value="Moldova">Moldova</option>
+                <option value="Monaco">Monaco</option>
+                <option value="Mongolia">Mongolia</option>
+                <option value="Montenegro">Montenegro</option>
+                <option value="Morocco">Morocco</option>
+                <option value="Mozambique">Mozambique</option>
+                <option value="Myanmar">Myanmar</option>
+                <option value="Namibia">Namibia</option>
+                <option value="Nauru">Nauru</option>
+                <option value="Nepal">Nepal</option>
+                <option value="Netherlands">Netherlands</option>
+                <option value="New Zealand">New Zealand</option>
+                <option value="Nicaragua">Nicaragua</option>
+                <option value="Niger">Niger</option>
+                <option value="Nigeria">Nigeria</option>
+                <option value="North Korea">North Korea</option>
+                <option value="North Macedonia">North Macedonia</option>
+                <option value="Norway">Norway</option>
+                <option value="Oman">Oman</option>
+                <option value="Pakistan">Pakistan</option>
+                <option value="Palau">Palau</option>
+                <option value="Palestine State">Palestine State</option>
+                <option value="Panama">Panama</option>
+                <option value="Papua New Guinea">Papua New Guinea</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Peru">Peru</option>
+                <option value="Philippines">Philippines</option>
+                <option value="Poland">Poland</option>
+                <option value="Portugal">Portugal</option>
+                <option value="Qatar">Qatar</option>
+                <option value="Romania">Romania</option>
+                <option value="Russia">Russia</option>
+                <option value="Rwanda">Rwanda</option>
+                <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                <option value="Saint Lucia">Saint Lucia</option>
+                <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                <option value="Samoa">Samoa</option>
+                <option value="San Marino">San Marino</option>
+                <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                <option value="Saudi Arabia">Saudi Arabia</option>
+                <option value="Senegal">Senegal</option>
+                <option value="Serbia">Serbia</option>
+                <option value="Seychelles">Seychelles</option>
+                <option value="Sierra Leone">Sierra Leone</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Slovakia">Slovakia</option>
+                <option value="Slovenia">Slovenia</option>
+                <option value="Solomon Islands">Solomon Islands</option>
+                <option value="Somalia">Somalia</option>
+                <option value="South Africa">South Africa</option>
+                <option value="South Korea">South Korea</option>
+                <option value="South Sudan">South Sudan</option>
+                <option value="Spain">Spain</option>
+                <option value="Sri Lanka">Sri Lanka</option>
+                <option value="Sudan">Sudan</option>
+                <option value="Suriname">Suriname</option>
+                <option value="Sweden">Sweden</option>
+                <option value="Switzerland">Switzerland</option>
+                <option value="Syria">Syria</option>
+                <option value="Taiwan">Taiwan</option>
+                <option value="Tajikistan">Tajikistan</option>
+                <option value="Tanzania">Tanzania</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Timor-Leste">Timor-Leste</option>
+                <option value="Togo">Togo</option>
+                <option value="Tonga">Tonga</option>
+                <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                <option value="Tunisia">Tunisia</option>
+                <option value="Turkey">Turkey</option>
+                <option value="Turkmenistan">Turkmenistan</option>
+                <option value="Tuvalu">Tuvalu</option>
+                <option value="Uganda">Uganda</option>
+                <option value="Ukraine">Ukraine</option>
+                <option value="United Arab Emirates">United Arab Emirates</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Uruguay">Uruguay</option>
+                <option value="Uzbekistan">Uzbekistan</option>
+                <option value="Vanuatu">Vanuatu</option>
+                <option value="Venezuela">Venezuela</option>
+                <option value="Vietnam">Vietnam</option>
+                <option value="Yemen">Yemen</option>
+                <option value="Zambia">Zambia</option>
+                <option value="Zimbabwe">Zimbabwe</option>
+            </select>
+          </div>
+          <div class="profile-section">
+            <h2>Address</h2>
+            <input type="text" id="input-address" value="6 Avenue SE, T241S5">
+          </div>
+		</div>
+        <div class="profile-section">
+            <h2>About Me</h2>
+            <textarea id="about-me" rows="5">Passionate, versatile, and results-driven Full-Stack Developer offering an advanced academic background in Computer Engineering and 3+ years of experience driving software design, testing, and optimization activities. Recognized as a strategic problem-solver with a demonstrated record of defining and implementing solutions that drive product improvements and ensure current and future business needs are met.</textarea>
+        </div>
+        <div class="profile-actions">
+            <div class="left-buttons">
+                <button class="save-button">Save Changes</button>
+                <button class="cancel-button">Cancel</button>
+            </div>
+            <button class="delete-button">Delete Account</button>
+        </div>
+    </div>
+	
+  </div>
+    
+	<p style="text-align: center; margin-top: 50px; font-size: 13px; color: #9e9e9e;">YSwipe © <span id="currentYear"></span> <p/>
+	
+ </div>
+    
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        document.getElementById('file-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profile-image').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+		
+		
+		
+		function resizeTextarea(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const textarea = document.getElementById("input-header");
+            resizeTextarea(textarea); // Initialize the height based on the initial value
+        });
+    </script>
+	
+	<script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var currentYear = new Date().getFullYear();
+            document.getElementById('currentYear').textContent = currentYear;
+        });
+    </script>
+
+</body>
+</html>

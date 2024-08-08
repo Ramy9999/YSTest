@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Interviewer</title>
+	<link rel="icon" type="image/x-icon" href="assets/img/logo.png">
+    <style>
+        /* Custom styling */
+        #jitsi-container {
+            width: 100%;
+            height: 98vh;
+            border: 2px solid black;
+            border-radius: 15px; /* Add rounded corners */
+            overflow: hidden; /* Ensure the content respects the rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: adds a shadow for better visibility */
+            position: relative;
+        }
+        #thank-you-message {
+            display: hidden;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <p id="thank-you-message">Thank you and see you later!</p>
+    <div id="jitsi-container"></div>
+
+    <script src="https://meet.jit.si/external_api.js"></script>
+    <script>
+        // Initialize the Jitsi Meet API
+        const domain = 'meet.jit.si';
+        const options = {
+            roomName: 'vpaas-magic-cookie-4c1f4b6cabde473a8eea55f5b37aa2b1/YswipeVideoInterviewer',
+            width: '100%',
+            height: '100%',
+            parentNode: document.querySelector('#jitsi-container'),
+            configOverwrite: {
+                // Configuration options
+                startWithVideoMuted: true,
+                startWithAudioMuted: true,
+                enableWelcomePage: false,
+            },
+            interfaceConfigOverwrite: {
+                // Interface options
+                SHOW_JITSI_WATERMARK: false,
+                SHOW_WATERMARK_FOR_GUESTS: false,
+                SHOW_BRAND_WATERMARK: false,
+                SHOW_POWERED_BY: false,
+                HIDE_DEEP_LINKING_LOGO: true, // Hide the deep linking logo
+                DEFAULT_LOGO_URL: 'https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png', // Sample PNG logo URL
+                JITSI_WATERMARK_LINK: '', // You can add your link here
+                BRAND_WATERMARK_LINK: '',
+                DEFAULT_REMOTE_DISPLAY_NAME: 'Guest',
+                DEFAULT_LOCAL_DISPLAY_NAME: 'Me',
+                TOOLBAR_BUTTONS: [
+                    'microphone', 'camera', 'closedcaptions', 'desktop', 'fullscreen',
+                    'fodeviceselection', 'hangup', 'profile', 'chat', 'recording',
+                    'livestreaming', 'etherpad', 'sharedvideo', 'settings', 'raisehand',
+                    'videoquality', 'filmstrip', 'invite', 'feedback', 'stats', 'shortcuts',
+                    'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone',
+                    'e2ee'
+                ],
+                MOBILE_APP_PROMO: false, // Hide the mobile app promo
+            },
+        };
+        const api = new JitsiMeetExternalAPI(domain, options);
+
+        // Listen for the 'readyToClose' event
+        api.addEventListener('readyToClose', () => {
+            document.getElementById('jitsi-container').style.display = 'none';
+            document.getElementById('thank-you-message').style.display = 'block';
+        });
+
+        // Example of using the API to mute all participants
+        api.addEventListener('videoConferenceJoined', () => {
+            api.executeCommand('toggleAudio');
+        });
+    </script>
+</body>
+</html>
