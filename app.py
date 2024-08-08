@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request, jsonify
+from flask import Flask, send_from_directory, request, jsonify, render_template
 from flask_cors import CORS
 import os
 import whisper
@@ -6,13 +6,12 @@ import logging
 import openai
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
 load_dotenv()
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+app = Flask(__name__, static_folder='static', template_folder='templates')
 CORS(app)  # This will enable CORS for all routes
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = os.getenv('OPENAI_API_KEY')
 openai.api_key = openai_api_key
 
 logging.basicConfig(level=logging.INFO)
@@ -20,14 +19,14 @@ model = whisper.load_model("base")
 
 @app.route('/')
 def index():
-    return send_from_directory('', 'index.html')
+    return render_template('index.html')
 
 @app.route('/<path:path>')
 def serve_page(path):
     if path.endswith('.html'):
-        return send_from_directory('', path)
+        return render_template(path)
     else:
-        return send_from_directory('static', path) 
+        return send_from_directory('static', path)
 
 def get_text(file_path):
     if file_path is not None:
@@ -51,14 +50,14 @@ def get_chatgpt_response(text):
 
     while retries < max_retries:
         try:
-            response = openai.ChatCompletion.create(
+            response = openai.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {"role": "system", "content": "Rate me as a job candidate and give me a score from 1 to 10."},
                     {"role": "user", "content": text}
                 ]
             )
-            return response.choices[0].message['content'].strip()
+            return response.choices[0].message.content.strip()
         except openai.error.RateLimitError as e:
             retries += 1
             print(f"RateLimitError: {e}. Retrying in {delay} seconds...")
